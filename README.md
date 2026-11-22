@@ -39,13 +39,15 @@ parallel.
 
 ## Common commands
 
-| Command               | What it does                   |
-| --------------------- | ------------------------------ |
-| `composer test`       | Pint check, PHPStan, then Pest |
-| `composer lint`       | Auto-fix code style with Pint  |
-| `npm run dev`         | Vite dev server                |
-| `npm run types:check` | `vue-tsc` type check           |
-| `php artisan migrate` | Run migrations                 |
+| Command                          | What it does                          |
+| -------------------------------- | ------------------------------------- |
+| `composer test`                  | Pint check, PHPStan, then Pest        |
+| `composer lint`                  | Auto-fix code style with Pint         |
+| `npm run dev`                    | Vite dev server                       |
+| `npm run types:check`            | `vue-tsc` type check                  |
+| `php artisan migrate`            | Run migrations                        |
+| `php artisan ams:load-legacy-dump` | Load the SQL dump into the legacy DB |
+| `php artisan ams:import-legacy`  | Import the old data (safe to re-run)  |
 
 ## School configuration
 
@@ -103,3 +105,22 @@ legacy/ams/gem_db (1).sql   phpMyAdmin export
 
 `legacy/` and `*.sql` are git-ignored. **Never commit real student data**,
 including medical and special-needs records. Seed demo data with factories.
+
+To load and import the old data locally:
+
+```bash
+php artisan ams:load-legacy-dump "legacy/ams/gem_db (1).sql"
+php artisan ams:import-legacy --dry-run   # preview; rolls back
+php artisan ams:import-legacy             # writes the import
+```
+
+The importer is idempotent (keyed by `legacy_key`) and writes a JSON reject
+report to `storage/app/imports/`. By default it reads a local SQLite database at
+`database/legacy.sqlite`; set `LEGACY_DB_CONNECTION=mysql` and the `LEGACY_DB_*`
+variables in `.env` to import from a real MySQL database instead. Use
+`--dump=` to load a dump as part of the import command, and `--report=` to
+choose the report path.
+
+Old typo'd columns are renamed during import: `ca_provice` →
+`current_province`, `pi__attended_early_learning_program_name` →
+`attended_early_learning_program_name`, `pa_zip_code` → `permanent_zip_code`.

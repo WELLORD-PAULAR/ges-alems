@@ -84,26 +84,47 @@ One checklist per vertical slice. A slice is done only when every box in it is t
 
 **Schema**
 
-- [ ] Migrations for users, lookups (mother tongue, religion, indigenous group)
-- [ ] Migrations for students/enrollments (per D1), address, parents, medical, special needs
-- [ ] Migrations for sections, subjects, teachers, teacher assignments
-- [ ] Surrogate ids everywhere, `legacy_key` column kept for traceability
-- [ ] `set` columns stored as JSON arrays with casts (modality, medical conditions, special needs)
-- [ ] Unique index on assignment (teacher, subject, section, school year, term)
-- [ ] Typo'd columns renamed (`ca_provice`, `pi__attended_...`) with a mapping table documented
-- [ ] Models and relationships written, factories and seeders for fake data
+- [x] Migrations for users, lookups (mother tongue, religion, indigenous group)
+- [x] Migrations for students/enrollments (per D1), address, parents, medical, special needs
+- [x] Migrations for sections, subjects, teachers, teacher assignments
+- [x] Surrogate ids everywhere, `legacy_key` column kept for traceability
+- [x] `set` columns stored as JSON arrays with casts (modality, medical conditions, special needs)
+- [x] Unique index on assignment (teacher, subject, section, school year, term)
+- [x] Typo'd columns renamed (`ca_provice`, `pi__attended_...`) with a mapping table documented
+- [x] Models and relationships written, factories and seeders for fake data
 
 **Import**
 
-- [ ] Old DB loaded locally and wired as a `legacy` connection
-- [ ] `ams:import-legacy` command created, safe to re-run (idempotent via `legacy_key`)
-- [ ] `--dry-run` option works
-- [ ] Cleaning rules done: `Kindergart` to K, school year formats, `0000-00-00` dates to null
-- [ ] Old `section` text converted to `section_id`, sections seeded from the old constant
-- [ ] Old `user_account` imported into users (bcrypt hashes kept as-is)
-- [ ] Reject report written to a file listing every row that failed and why
-- [ ] Row counts reconciled per table, 20 records spot-checked by hand
-- [ ] Tests cover the cleaning rules
+- [x] Old DB loaded locally and wired as a `legacy` connection
+- [x] `ams:import-legacy` command created, safe to re-run (idempotent via `legacy_key`)
+- [x] `--dry-run` option works
+- [x] Cleaning rules done: `Kindergart` to K, school year formats, `0000-00-00` dates to null
+- [x] Old `section` text converted to `section_id`, sections seeded from the old constant
+- [x] Old `user_account` imported into users (bcrypt hashes kept as-is)
+- [x] Reject report written to a file listing every row that failed and why
+- [x] Row counts reconciled per table, 20 records spot-checked by hand
+- [x] Tests cover the cleaning rules
+
+### Slice 1 status (22 Nov 2026)
+
+**Done in code**
+
+- Six migrations add lookups, legacy identity on users, sections/subjects/teachers, students/enrollments (D1), four enrollment detail tables and the teacher-assignment unique index. Surrogate ids are used everywhere; `legacy_key` is retained on imported records.
+- Typo mappings are handled in `LegacyRowCleaner`/`LegacyImporter`: `ca_provice` → `current_province`, `pi__attended_early_learning_program_name` → `attended_early_learning_program_name`, `pa_zip_code` → `permanent_zip_code`. MySQL `set` columns are stored as JSON arrays with casts.
+- Models, relationships, factories and seeders added. `ReferenceDataSeeder` seeds sections from `config('school.sections')` plus the standard subject list; `DemoDataSeeder` creates 30 fake students (no real data in the repo).
+- `ams:load-legacy-dump` parses the MySQL dump into the local SQLite `legacy` connection; MySQL users can point `LEGACY_DB_CONNECTION=mysql` instead. All nine old tables loaded.
+- `ams:import-legacy` imports lookups, users (bcrypt hashes preserved via query builder), sections, students/enrollments and child records. It is idempotent via `legacy_key`, keeps the newest child row on duplicates (matching the old `ORDER BY id DESC`), and supports `--dry-run`, `--dump=` and `--report=`.
+- Cleaning rules: `Kindergart` → K, dirty school years normalized (including `2026 - 202` → `2026-2027`), `0000-00-00` dates → null, junk PSA/4Ps/LRN values dropped, zip codes zero-padded. The two rows with a zero birth date are imported with `birth_date = null` and a warning.
+- Sections seeded from the old hardcoded constant for every school year present in the dump plus the current year (34 rows), and the two rows with an old `section` value are linked by `section_id`.
+- Every rejected or questionable row is written to a JSON report in `storage/app/imports/`. On the real dump the final run had **0 rejects and 8 warnings** (2 zero birth dates plus 6 expected dirty-value warnings).
+- Reconciled counts: 427 students, 427 enrollments, 374 medical, 427 each of addresses/parents/special needs, 199 mother tongues, 11 religions, 177 indigenous groups, 2 users, 34 sections. A second run produced identical counts (idempotent), and `--dry-run` left the database unchanged. 20 records were spot-checked by hand across grades, statuses, sections, dates, modalities, lookups and child tables.
+- Verification: `composer test` — **135 tests, 356 assertions** (Pint, PHPStan level 7, Pest all green); `npm run types:check`, `npm run check`, `npm run build` all pass.
+
+**Still manual**
+
+- Confirm the provisional status-transition table in `VerificationStatus` before Slice 4 begins (decision D7).
+- Point the legacy connection at the real MySQL database on a dev machine with the old app running read-only, then re-run the import and compare counts.
+- Push the Slice 1 branch and open the PR; merge Slice 0 and Slice 1 before Lanes B/C start.
 
 ### Prep notes
 
