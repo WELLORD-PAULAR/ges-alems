@@ -40,4 +40,18 @@ return [
     ),
 
     'terms' => $terms,
+
+    /*
+     * Section names from the old `SectionAssignmentHandler::SECTIONS` constant.
+     * The importer seeds these for every school year found in the legacy data.
+     */
+    'sections' => [
+        'K' => ['K-Obedience', 'K-Kindness', 'K-Joy'],
+        '1' => ['1-Care', '1-Love', '1-Hope'],
+        '2' => ['2-Integrity', '2-Patience', '2-Unity'],
+        '3' => ['3-Peace', '3-Faith'],
+        '4' => ['4-Charity', '4-Generosity'],
+        '5' => ['5-Loyalty', '5-Honesty'],
+        '6' => ['6-Humility', '6-Purity'],
+    ],
 ];

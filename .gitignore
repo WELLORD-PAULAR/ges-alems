@@ -3,6 +3,7 @@
 /legacy
 /legacy-db
 *.sql
+/database/legacy.sqlite
 
 /.phpunit.cache
 /bootstrap/ssr
