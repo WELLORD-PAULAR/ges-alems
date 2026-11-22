@@ -39,15 +39,15 @@ parallel.
 
 ## Common commands
 
-| Command                          | What it does                          |
-| -------------------------------- | ------------------------------------- |
-| `composer test`                  | Pint check, PHPStan, then Pest        |
-| `composer lint`                  | Auto-fix code style with Pint         |
-| `npm run dev`                    | Vite dev server                       |
-| `npm run types:check`            | `vue-tsc` type check                  |
-| `php artisan migrate`            | Run migrations                        |
+| Command                            | What it does                         |
+| ---------------------------------- | ------------------------------------ |
+| `composer test`                    | Pint check, PHPStan, then Pest       |
+| `composer lint`                    | Auto-fix code style with Pint        |
+| `npm run dev`                      | Vite dev server                      |
+| `npm run types:check`              | `vue-tsc` type check                 |
+| `php artisan migrate`              | Run migrations                       |
 | `php artisan ams:load-legacy-dump` | Load the SQL dump into the legacy DB |
-| `php artisan ams:import-legacy`  | Import the old data (safe to re-run)  |
+| `php artisan ams:import-legacy`    | Import the old data (safe to re-run) |
 
 ## School configuration
 
