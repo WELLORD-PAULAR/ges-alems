@@ -45,8 +45,13 @@ defineProps<{
         class="flex flex-col gap-6"
     >
         <div class="grid gap-6">
+
+            <!-- Email -->
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email">
+                    Email
+                </Label>
+
                 <Input
                     id="email"
                     type="email"
@@ -55,14 +60,18 @@ defineProps<{
                     v-focus
                     :tabindex="1"
                     autocomplete="email"
-                    placeholder="email@example.com"
+                    placeholder="Enter your email"
                 />
+
                 <InputError :message="errors.email" />
             </div>
-
+            <!-- Password -->
             <div class="grid gap-2">
                 <div class="flex items-center justify-between">
-                    <Label for="password">Password</Label>
+                    <Label for="password">
+                        Password
+                    </Label>
+
                     <TextLink
                         v-if="canResetPassword"
                         :href="request()"
@@ -72,6 +81,7 @@ defineProps<{
                         Forgot your password?
                     </TextLink>
                 </div>
+
                 <PasswordInput
                     id="password"
                     name="password"
@@ -80,16 +90,29 @@ defineProps<{
                     autocomplete="current-password"
                     placeholder="Password"
                 />
+
                 <InputError :message="errors.password" />
             </div>
 
+            <!-- Remember me -->
             <div class="flex items-center justify-between">
-                <Label for="remember" class="flex items-center space-x-3">
-                    <Checkbox id="remember" name="remember" :tabindex="3" />
-                    <span>Remember me</span>
+                <Label
+                    for="remember"
+                    class="flex items-center space-x-3"
+                >
+                    <Checkbox
+                        id="remember"
+                        name="remember"
+                        :tabindex="3"
+                    />
+
+                    <span>
+                        Remember me
+                    </span>
                 </Label>
             </div>
 
+            <!-- Login button -->
             <Button
                 type="submit"
                 class="mt-4 w-full"
@@ -98,13 +121,21 @@ defineProps<{
                 data-test="login-button"
             >
                 <Spinner v-if="processing" />
+
                 Log in
             </Button>
         </div>
 
+        <!-- Registration -->
         <div class="text-center text-sm text-muted-foreground">
             Don't have an account?
-            <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
+
+            <TextLink
+                :href="register()"
+                :tabindex="5"
+            >
+                Sign up
+            </TextLink>
         </div>
     </Form>
 </template>

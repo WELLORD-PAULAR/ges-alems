@@ -19,6 +19,7 @@ use App\Support\Legacy\LegacyImporter;
 use Illuminate\Support\Facades\DB;
 use Tests\Support\LegacyTestDatabase;
 
+
 beforeEach(function () {
     LegacyTestDatabase::configure();
     LegacyTestDatabase::createTables();
@@ -326,7 +327,7 @@ test('the importer creates students, enrollments, details, and reference data', 
 
     $juan = Student::query()->where('legacy_key', 'JUAN_DELA_CRUZ_20150101')->firstOrFail();
     $juanEnrollment = Enrollment::query()->where('legacy_key', 'JUAN_DELA_CRUZ_20150101')->firstOrFail();
-    $admin = User::query()->where('username', 'admin')->firstOrFail();
+    $admin = User::query()->where('email', 'admin@example.test')->firstOrFail();
 
     expect($juan->psa_bcn)->toBe('2018 4140436')
         ->and($juan->birth_date?->toDateString())->toBe('2015-01-01')
@@ -358,7 +359,7 @@ test('the importer creates students, enrollments, details, and reference data', 
         ->and($mariaEnrollment->verification)->toBe(VerificationStatus::Verified);
 
     $pedroEnrollment = Enrollment::query()->where('legacy_key', 'PEDRO_REYES_20180303')->firstOrFail();
-    $teacher = User::query()->where('username', 'teacher')->firstOrFail();
+    $teacher = User::query()->where('email', 'teacher@example.test')->firstOrFail();
 
     expect($pedroEnrollment->grade_level)->toBe(GradeLevel::Grade1)
         ->and($pedroEnrollment->section?->name)->toBe('1-Care')

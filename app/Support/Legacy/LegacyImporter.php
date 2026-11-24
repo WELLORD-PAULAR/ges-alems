@@ -134,7 +134,6 @@ final class LegacyImporter
             $createdAt = LegacyRowCleaner::dateTime($row['created_at'] ?? null) ?? now();
             $values = [
                 'name' => $username,
-                'username' => $username,
                 'email' => $email,
                 'password' => $password,
                 'role' => $role->value,

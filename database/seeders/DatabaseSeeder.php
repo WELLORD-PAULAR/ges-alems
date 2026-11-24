@@ -16,8 +16,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(ReferenceDataSeeder::class);
 
-        if (app()->environment(['local', 'testing'])) {
-            $this->call(DemoDataSeeder::class);
+        if (app()->environment([
+            'local',
+            'testing',
+        ])) {
+            $this->call([
+                DemoDataSeeder::class,
+                DevUserSeeder::class,
+            ]);
         }
     }
 }
