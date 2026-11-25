@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('subjects', SubjectController::class)
+    ->only(['index', 'store', 'update', 'destroy']);
+
+Route::resource('teachers', TeacherController::class)
     ->only(['index', 'store', 'update', 'destroy']);

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\TeacherFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,9 +25,26 @@ class Teacher extends Model
     /** @use HasFactory<TeacherFactory> */
     use HasFactory;
 
+    /**
+     * First, middle and last name joined with single spaces, skipping blanks.
+     */
     public function fullName(): string
     {
-        return trim($this->first_name.' '.$this->last_name);
+        return implode(' ', array_filter(
+            [$this->first_name, $this->middle_name, $this->last_name],
+            fn (?string $part): bool => filled($part),
+        ));
+    }
+
+    /**
+     * Teacher lists sort by last name, then first name.
+     *
+     * @param  Builder<Teacher>  $query
+     * @return Builder<Teacher>
+     */
+    public function scopeOrderedByName(Builder $query): Builder
+    {
+        return $query->orderBy('last_name')->orderBy('first_name');
     }
 
     /**
