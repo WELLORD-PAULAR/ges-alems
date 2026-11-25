@@ -19,7 +19,6 @@ use App\Support\Legacy\LegacyImporter;
 use Illuminate\Support\Facades\DB;
 use Tests\Support\LegacyTestDatabase;
 
-
 beforeEach(function () {
     LegacyTestDatabase::configure();
     LegacyTestDatabase::createTables();

@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -46,6 +45,8 @@ Route::middleware([
             return Inertia::render('admin/Dashboard');
         })
             ->name('dashboard');
+
+        require __DIR__.'/admin.php';
     });
 
 /*
