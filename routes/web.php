@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\EnrollmentLookupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -70,3 +72,23 @@ Route::middleware([
     });
 
 require __DIR__.'/settings.php';
+
+/*
+|--------------------------------------------------------------------------
+| Public enrollment
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/enroll', [EnrollmentController::class, 'create'])
+    ->name('enrollment.create');
+
+Route::post('/enroll', [EnrollmentController::class, 'store'])
+    ->middleware('throttle:5,1')
+    ->name('enrollment.store');
+
+Route::get('/enroll/success', [EnrollmentController::class, 'success'])
+    ->name('enrollment.success');
+
+Route::get('/lookups/{type}', [EnrollmentLookupController::class, 'show'])
+    ->middleware('throttle:30,1')
+    ->name('enrollment.lookups.show');

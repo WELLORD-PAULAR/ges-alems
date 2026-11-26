@@ -138,15 +138,15 @@ One checklist per vertical slice. A slice is done only when every box in it is t
 
 ## Slice 2: Auth and roles (Lane B)
 
-- [ ] Username login (Fortify or starter kit), logout
-- [ ] Inactive accounts (`is_active = 0`) cannot log in
-- [ ] Login rate limiting on
-- [ ] Role middleware and Policies for Admin and Teacher
-- [ ] Post-login redirect by role (admin dashboard / teacher dashboard)
-- [ ] D5 handled so no role can get into a redirect loop
-- [ ] Seeded admin and teacher accounts for dev only, passwords from `.env`
-- [ ] Tests: login success/fail, inactive user, each role blocked from the other's pages
-- [ ] Parity check: same pages accessible to same roles as the old app
+- [X] Username login (Fortify or starter kit), logout
+- [X] Inactive accounts (`is_active = 0`) cannot log in
+- [X] Login rate limiting on
+- [X] Role middleware and Policies for Admin and Teacher
+- [X] Post-login redirect by role (admin dashboard / teacher dashboard)
+- [X] D5 handled so no role can get into a redirect loop
+- [X] Seeded admin and teacher accounts for dev only, passwords from `.env`
+- [X] Tests: login success/fail, inactive user, each role blocked from the other's pages
+- [X] Parity check: same pages accessible to same roles as the old app
 
 ### Prep notes
 
