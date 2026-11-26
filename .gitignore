@@ -50,5 +50,6 @@ yarn-error.log
 /boost.json
 /opencode.json
 /opencode.jsonc
+slice-5-sections.patch
 slice-6-subjects.patch
 slice-7-teachers.patch

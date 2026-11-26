@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
-import { BookOpen, FolderGit2, LayoutGrid, Library, Users } from '@lucide/vue';
+import {
+    BookOpen,
+    FolderGit2,
+    Layers,
+    LayoutGrid,
+    Library,
+    ListChecks,
+    Users,
+} from '@lucide/vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
@@ -16,6 +24,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as sectioningIndex } from '@/routes/admin/sectioning';
+import { index as sectionsIndex } from '@/routes/admin/sections';
 import { index as subjectsIndex } from '@/routes/admin/subjects';
 import { index as teachersIndex } from '@/routes/admin/teachers';
 import type { NavItem } from '@/types';
@@ -40,6 +50,16 @@ const mainNavItems = computed<NavItem[]>(() => [
                   title: 'Teachers',
                   href: teachersIndex(),
                   icon: Users,
+              },
+              {
+                  title: 'Sections',
+                  href: sectionsIndex(),
+                  icon: Layers,
+              },
+              {
+                  title: 'Sectioning',
+                  href: sectioningIndex(),
+                  icon: ListChecks,
               },
           ]
         : []),

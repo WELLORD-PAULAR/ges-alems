@@ -33,6 +33,16 @@ class Section extends Model
     }
 
     /**
+     * A student can only be placed in a section of their own grade level and
+     * school year.
+     */
+    public function accepts(Enrollment $enrollment): bool
+    {
+        return $this->grade_level === $enrollment->grade_level
+            && $this->school_year === $enrollment->school_year;
+    }
+
+    /**
      * @return HasMany<Enrollment, $this>
      */
     public function enrollments(): HasMany
