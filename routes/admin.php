@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AssignmentController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SectioningController;
 use App\Http\Controllers\Admin\SubjectController;
@@ -28,3 +29,11 @@ Route::resource('sections', SectionController::class)
 Route::get('sectioning', [SectioningController::class, 'index'])->name('sectioning.index');
 Route::post('sectioning/bulk', [SectioningController::class, 'bulk'])->name('sectioning.bulk');
 Route::put('sectioning/{enrollment}', [SectioningController::class, 'assign'])->name('sectioning.assign');
+
+Route::resource('assignments', AssignmentController::class)
+    ->only(['index', 'store', 'update', 'destroy']);
+
+Route::delete('teachers/{teacher}/assignments', [AssignmentController::class, 'destroyForTeacher'])
+    ->name('teachers.assignments.destroy');
+Route::delete('sections/{section}/assignments', [AssignmentController::class, 'destroyForSection'])
+    ->name('sections.assignments.destroy');

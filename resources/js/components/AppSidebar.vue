@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import {
     BookOpen,
+    ClipboardList,
     FolderGit2,
     Layers,
     LayoutGrid,
@@ -24,6 +25,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import { index as assignmentsIndex } from '@/routes/admin/assignments';
 import { index as sectioningIndex } from '@/routes/admin/sectioning';
 import { index as sectionsIndex } from '@/routes/admin/sections';
 import { index as subjectsIndex } from '@/routes/admin/subjects';
@@ -60,6 +62,11 @@ const mainNavItems = computed<NavItem[]>(() => [
                   title: 'Sectioning',
                   href: sectioningIndex(),
                   icon: ListChecks,
+              },
+              {
+                  title: 'Assignments',
+                  href: assignmentsIndex(),
+                  icon: ClipboardList,
               },
           ]
         : []),
